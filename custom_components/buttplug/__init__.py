@@ -222,6 +222,8 @@ async def start_platforms(
         LOGGER.warning("Handle HA shutdown")
         await disconnect_client(hass, entry)
 
+    await setup_driver(hass, entry, client)
+
     listen_task = hass.async_create_task(client_listen(hass, entry, client))
     entry_hass_data[DATA_CLIENT_LISTEN_TASK] = listen_task
     entry.async_on_unload(
@@ -229,8 +231,6 @@ async def start_platforms(
     )
 
     LOGGER.warning("Connection to Buttplug Server initialized")
-
-    await setup_driver(hass, entry, client)
 
 
 async def setup_driver(
