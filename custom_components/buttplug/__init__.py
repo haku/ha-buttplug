@@ -197,7 +197,7 @@ async def async_setup_entry(
             "Unexpected Exception when trying to connect."
         ) from err
     else:
-        LOGGER.warning("Connected to Buttplug Server")
+        LOGGER.warning(f"Connected to Buttplug Server: {address}")
 
     platform_task = hass.async_create_task(start_platforms(hass, entry, client))
     hass.data[DOMAIN].setdefault(entry.entry_id, {})[
@@ -301,6 +301,7 @@ async def client_listen(
     """Listen with the client."""
 
     await client.start_scanning()
+    LOGGER.warning("Scan started")
 
     should_reload = True
     while should_reload:
